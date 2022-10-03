@@ -19,11 +19,11 @@ function Header() {
   };
 
   const { user } = useSelector((state) => ({ ...state }));
-  useEffect(() => {
-    if (user && user.token) {
-      history.push("/");
-    }
-  }, [user, history]);
+  // useEffect(() => {
+  //   if (user && user.token) {
+  //     history.push("/");
+  //   }
+  // }, [user, history]);
   return (
     <>
       <header data-testid="header">

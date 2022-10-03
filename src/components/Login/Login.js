@@ -25,11 +25,17 @@ const Login = () => {
   let history = useHistory();
   const { user } = useSelector((state) => ({ ...state }));
   useEffect(() => {
-    if (user && user.token) {
-      history.push("/");
+    let intended = history.location.state;
+    if (intended) {
+      return;
+    } else {
+      if (user && user.token) {
+        history.push("/");
+      }
     }
   }, [user, history]);
   let dispatch = useDispatch();
+  
   const googleProvider = new firebase.auth.GoogleAuthProvider();
 
   const signInWithGoogle = async () => {
@@ -66,7 +72,7 @@ const Login = () => {
           alert("successfully login");
         });
       //get the data from the database and store it in redux
-        await db
+      await db
         .collection("users")
         .doc(user.email)
         .get()
@@ -125,7 +131,7 @@ const Login = () => {
         });
       });
       alert("successfully login");
-      history("/");
+      history.push("/");
     } catch (err) {
       console.error(err);
       alert("could'nt login");
@@ -133,6 +139,7 @@ const Login = () => {
   };
 
   const LoginForm = () => (
+    
     <form onSubmit={signInWithEmailAndPassword} class="form">
       <label for="user-email" style={{ paddingTop: "13px" }}>
         &nbsp;Email
@@ -196,6 +203,7 @@ const Login = () => {
   );
   return (
     <>
+    
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

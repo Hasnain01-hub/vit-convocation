@@ -49,10 +49,10 @@ function App() {
     <>
       <Header />
       <Switch>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/signup" element={<Signup />} />
-        <AdminRoute exact path="/admin" element={<Login />} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+        <AdminRoute exact path="/admin" component={Login}  />
       </Switch>
     </>
   );
