@@ -1,4 +1,6 @@
+import "react-toastify/dist/ReactToastify.css";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
@@ -12,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 const eye = <FontAwesomeIcon icon={faEye} />;
 function Signup() {
   const [email, setEmail] = useState("");
+  const [roll, setroll] = useState("");
+  const [department, setdepartment] = useState("");
   const [password, setpassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
@@ -30,58 +34,33 @@ function Signup() {
     }
   }, [user, history]);
 
-  let dispatch = useDispatch();
+  // let dispatch = useDispatch();
   const registerWithEmailAndPassword = async () => {
-    try {
-      const res = await auth.createUserWithEmailAndPassword(email, password);
-      const user = res.user;
-      const idTokenResult = await user.getIdTokenResult();
-      var separatedString;
+    
+    if(email.includes("@vit.edu.in")){
+    const data = {
+      email: email,
+      roll: roll,
+      department: department,
+    };
+    const config = {
+      url: "http://localhost:3000/register/complete",
+      handleCodeInApp: true,
+    };
 
-      await db
-        .collection("users")
-        .doc(user.email)
-        .set({
-          name: user.email.split("@")[0],
-          role: "user",
-          email: user.email,
-        })
-        .then(async () => {
-          await db
-            .collection("users")
-            // .where('uid', '==', user.email)
-            .doc(user.email)
-            .get()
-            .then((doc) => {
-              if (doc && doc.exists) {
-                separatedString = doc.data();
-                //use separatedString
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-          dispatch({
-            type: "LOGGED_USERS",
-            payload: {
-              name: user.email.split("@")[0],
-              email: user.email,
-              token: idTokenResult.token,
-              role: separatedString.role,
-              id: user.email,
-              // id: res.data.id,
-            },
-          });
-        })
-        .catch();
-      // history.push("/");
-      console.log("hello", user);
-      alert("successfully Register");
-      history.push("/");
-    } catch (err) {
-      console.error(err);
-      alert("Register Failed");
-    }
+    await auth.sendSignInLinkToEmail(email, config);
+    // .then((succ)=>{
+    // console.log(succ);
+    toast.success(
+      `Email is sent to ${email} Click the link to complete your Registration, also check spam folder`
+    );
+    window.localStorage.setItem("emailForRegistration", JSON.stringify(data));
+    setEmail("");
+    setdepartment("");
+    setroll("");
+  }else{
+    toast.error("Please enter a valid VIT email");
+  }
   };
   return (
     <>
@@ -96,7 +75,7 @@ function Signup() {
               <span className="register">Register</span>
               <div class="underline-title1"></div>
             </div>
-            <form onSubmit={registerWithEmailAndPassword} class="form">
+            <form class="form">
               <label for="user-email" style={{ paddingTop: "13px" }}>
                 &nbsp;Email
               </label>
@@ -107,35 +86,32 @@ function Signup() {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                autoFocus
               />
               <div class="form-border"></div>
-              <div class="form-border"></div>
-              <label for="user-email1" style={{ paddingTop: "13px" }}>
-                &nbsp;Password
+              <label for="user-email" style={{ paddingTop: "13px" }}>
+                &nbsp;Roll No
               </label>
-              <div className="flex">
-                <input
-                  id="user-email1"
-                  class="form-content"
-                  name="email"
-                  value={password}
-                  onChange={(e) => setpassword(e.target.value)}
-                  autoFocus
-                  type={passwordShown ? "text" : "password"}
-                />
-                <i
-                  style={{
-                    marginLeft: "auto",
-                  }}
-                  onClick={togglePasswordVisiblity}
-                >
-                  {" "}
-                  {eye}
-                </i>
-              </div>
+              <input
+                id="user-email"
+                class="form-content"
+                type="text"
+                name="roll"
+                value={roll}
+                onChange={(e) => setroll(e.target.value)}
+              />
               <div class="form-border"></div>
-
+              <label for="user-email" style={{ paddingTop: "13px" }}>
+                &nbsp;Department
+              </label>
+              <input
+                id="user-email"
+                class="form-content"
+                type="text"
+                name="department"
+                value={department}
+                onChange={(e) => setdepartment(e.target.value)}
+              />
+              <div class="form-border"></div>
               <div class="form-border"></div>
               <Button
                 id="submit-btn"
@@ -145,7 +121,7 @@ function Signup() {
                 block
                 shape="round"
                 icon={<SendOutlined />}
-                disabled={!email || password.length < 6}
+                // disabled={!email || password.length < 6}
                 size="large"
               >
                 &nbsp;Register
@@ -158,6 +134,7 @@ function Signup() {
               </div>
             </form>
           </div>
+          <ToastContainer />
         </div>
       </motion.div>
     </>

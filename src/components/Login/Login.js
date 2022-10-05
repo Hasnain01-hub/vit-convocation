@@ -38,64 +38,7 @@ const Login = () => {
   
   const googleProvider = new firebase.auth.GoogleAuthProvider();
 
-  const signInWithGoogle = async () => {
-    try {
-      const res = await auth.signInWithPopup(googleProvider);
-      const user = res.user;
-      const idTokenResult = await user.getIdTokenResult();
-
-      await db
-        .collection("users")
-        .doc(user.email)
-        .get()
-        .then(async (doc) => {
-          if (doc.exists) {
-            //if the user already exists in the database then just store it in a variable
-            separatedString = doc.data();
-          } else {
-            //if the user does not exist in the database then create a new user
-            await db
-              .collection("users")
-              .doc(user.email)
-              .set({
-                name: user.email.split("@")[0],
-                email: user.email,
-                role: "user",
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          }
-        })
-        .then(() => {
-          // window.location.reload();
-          alert("successfully login");
-        });
-      //get the data from the database and store it in redux
-      await db
-        .collection("users")
-        .doc(user.email)
-        .get()
-        .then(async (doc) => {
-          if (doc.exists) {
-            var separatedString1 = doc.data();
-          }
-          dispatch({
-            type: "LOGGED_USERS",
-            payload: {
-              name: user.email.split("@")[0],
-              email: user.email,
-              token: idTokenResult.token,
-              role: await separatedString1.role,
-              id: user.email,
-            },
-          });
-        });
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
-    }
-  };
+  
   const signInWithEmailAndPassword = async () => {
     try {
       await db
@@ -216,17 +159,7 @@ const Login = () => {
               <div class="underline-title"></div>
             </div>
             {LoginForm()}
-            <Button
-              onClick={signInWithGoogle}
-              type="danger"
-              className="bt1 mb-3"
-              block
-              shape="round"
-              icon={<GoogleOutlined />}
-              size="large"
-            >
-              &nbsp;Login with Google
-            </Button>
+            
           </div>
         </div>
       </motion.div>
