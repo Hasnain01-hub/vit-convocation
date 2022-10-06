@@ -31,7 +31,7 @@ const RetriveContact = () => {
   };
   return (
     <>
-    
+    {Data.length == 0 ?<center><h2>No data present</h2></center>: 
     <div className='contact'>
       {Data.map((item) => (
         <div class="boxcard red" data-aos="zoom-in" key={item.id}>
@@ -44,7 +44,7 @@ const RetriveContact = () => {
       {/* <img src="https://assets.codepen.io/2301174/icon-supervisor.svg" alt=""/> */}
     </div>
     ))}
-    </div>
+    </div>}
     </>
   )
 }

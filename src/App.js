@@ -11,6 +11,7 @@ import AdminRoute from "./Routes/AdminRoute";
 import CompleteSignup from "./components/Login/Completesignup";
 import RetriveContact from "./admin/RetriveContact";
 import AddClass from "./admin/AddClass";
+import Contactus from "./components/Contact";
 function App() {
   const dispatch = useDispatch();
   var separatedString1;
@@ -55,6 +56,8 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/register/complete" component={CompleteSignup} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/contact" component={Contactus} />
+        
         <Route exact path="/signup" component={Signup} />
         <AdminRoute exact path="/contactus-retrive" component={RetriveContact}  />
         <AdminRoute exact path="/addclass" component={AddClass}  />
