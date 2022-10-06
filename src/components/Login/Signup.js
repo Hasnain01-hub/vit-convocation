@@ -28,7 +28,7 @@ function Signup() {
     if (intended) {
       return;
     } else {
-      if (user && user.token) {
+      if (user && user.email) {
         history.push("/");
       }
     }
@@ -37,7 +37,7 @@ function Signup() {
   // let dispatch = useDispatch();
   const registerWithEmailAndPassword = async () => {
     
-    if(email.includes("@vit.edu.in")){
+    // if(email.includes("@vit.edu.in")){
     const data = {
       email: email,
       roll: roll,
@@ -52,15 +52,15 @@ function Signup() {
     // .then((succ)=>{
     // console.log(succ);
     toast.success(
-      `Email is sent to ${email} Click the link to complete your Registration, also check spam folder`
+      `Email is sent to ${email} Click the link to complete your Registration, also check Junk folder`
     );
     window.localStorage.setItem("emailForRegistration", JSON.stringify(data));
     setEmail("");
     setdepartment("");
     setroll("");
-  }else{
-    toast.error("Please enter a valid VIT email");
-  }
+  // }else{
+  //   toast.error("Please enter a valid VIT email");
+  // }
   };
   return (
     <>

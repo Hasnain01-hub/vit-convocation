@@ -29,7 +29,7 @@ const Login = () => {
     if (intended) {
       return;
     } else {
-      if (user && user.token) {
+      if (user && user.email) {
         history.push("/");
       }
     }

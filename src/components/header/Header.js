@@ -67,11 +67,11 @@ function Header() {
                     Contact
                   </Link>
                 </li>
-                {user && user.token ? (
+                {user && user.email ? (
                   <>
                     {user.role == "admin" ? (
                       <li className="nav-item">
-                        <Link class="nav-link" to="/addevents">
+                        <Link class="nav-link" to="/addclass">
                           Add Class
                         </Link>
                       </li>
@@ -80,7 +80,7 @@ function Header() {
                     )}
                     {user.role == "admin" ? (
                       <li className="nav-item">
-                        <Link class="nav-link" to="/admin-contact">
+                        <Link class="nav-link" to="/contactus-retrive">
                           Contact-Data
                         </Link>
                       </li>
@@ -89,8 +89,8 @@ function Header() {
                     )}
                     {user.role == "admin" ? (
                       <li className="nav-item">
-                        <Link class="nav-link" to="/admin-events">
-                          C-Data
+                        <Link class="nav-link" to="/addclass">
+                          Add Class
                         </Link>
                       </li>
                     ) : (

@@ -10,7 +10,7 @@ const AdminRoute = ({ children, ...rest }) => {
   const [ok, setOk] = useState(false);
   var separatedString;
   useEffect(async () => {
-    if (user && user.token) {
+    if (user && user.email) {
       await db
         .collection("users")
         .doc(user.email)

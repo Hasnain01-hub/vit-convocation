@@ -9,12 +9,14 @@ import { auth, db } from "./Firebase";
 import { useDispatch } from "react-redux";
 import AdminRoute from "./Routes/AdminRoute";
 import CompleteSignup from "./components/Login/Completesignup";
+import RetriveContact from "./admin/RetriveContact";
+import AddClass from "./admin/AddClass";
 function App() {
   const dispatch = useDispatch();
   var separatedString1;
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      console.log(user)
+      // console.log(user)
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
         await db
@@ -41,7 +43,7 @@ function App() {
             console.log(error);
           });
       }
-      console.log(separatedString1)
+      // console.log(separatedString1)
     });
     return () => unsubscribe();
   }, [dispatch]);
@@ -54,7 +56,9 @@ function App() {
         <Route exact path="/register/complete" component={CompleteSignup} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
-        <AdminRoute exact path="/admin" component={Login}  />
+        <AdminRoute exact path="/contactus-retrive" component={RetriveContact}  />
+        <AdminRoute exact path="/addclass" component={AddClass}  />
+        
       </Switch>
     </>
   );
