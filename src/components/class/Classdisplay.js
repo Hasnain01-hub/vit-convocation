@@ -108,7 +108,7 @@ const Classdata = () => {
               })
               .then((res) => {
                 console.log(res);
-                alert(`${seat} is Booked!`);
+                alert(`${seat} seat is Booked!`);
                 window.location.reload();
               })
               .catch((err) => {
