@@ -76,7 +76,7 @@ const Contactus = () => {
               <input class="app-form-control" placeholder="EMAIL"/>
             </div> */}
             <div class="app-form-group">
-              <input class="app-form-control" name="Contact" onChange={handleChange}  placeholder="CONTACT NO"/>
+              <input class="app-form-control" name="Contact" maxLength="10" onChange={handleChange}  placeholder="CONTACT NO"/>
             </div>
             <div class="app-form-group message">
               <input class="app-form-control" name="message" onChange={handleChange} placeholder="MESSAGE"/>

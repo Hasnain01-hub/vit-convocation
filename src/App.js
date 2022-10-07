@@ -13,6 +13,7 @@ import RetriveContact from "./admin/RetriveContact";
 import AddClass from "./admin/AddClass";
 import Contactus from "./components/Contact";
 import Classdata from "./components/class/Classdisplay";
+import Fotter from "./footer/Footer";
 function App() {
   const dispatch = useDispatch();
   var separatedString1;
@@ -65,6 +66,7 @@ function App() {
         <AdminRoute exact path="/addclass" component={AddClass}  />
         
       </Switch>
+      <Fotter/>
     </>
   );
 }
