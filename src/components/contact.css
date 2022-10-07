@@ -191,6 +191,9 @@ body, button, input {
     height: 20px;
     margin: 0 5px;
   }
+  .coureseal-image{
+    max-width: 100%;
+  }
   
   @media screen and (max-width: 520px) {
     .screen-body {

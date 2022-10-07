@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
-import { auth, db } from "../../Firebase.js";
+import { auth } from "../../Firebase.js";
 import "./login.css";
 import { Button } from "antd";
 import { SendOutlined } from "@ant-design/icons";

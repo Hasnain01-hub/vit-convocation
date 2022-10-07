@@ -58,7 +58,7 @@ function Header() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link class="nav-link" to="/events">
+                  <Link class="nav-link" to="/class">
                     Class
                   </Link>
                 </li>
@@ -87,7 +87,7 @@ function Header() {
                     ) : (
                       console.log()
                     )}
-                    {user.role == "admin" ? (
+                    {/* {user.role == "admin" ? (
                       <li className="nav-item">
                         <Link class="nav-link" to="/addclass">
                           Add Class
@@ -95,7 +95,7 @@ function Header() {
                       </li>
                     ) : (
                       console.log()
-                    )}
+                    )} */}
                   </>
                 ) : (
                   console.log()

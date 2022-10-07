@@ -12,6 +12,7 @@ import CompleteSignup from "./components/Login/Completesignup";
 import RetriveContact from "./admin/RetriveContact";
 import AddClass from "./admin/AddClass";
 import Contactus from "./components/Contact";
+import Classdata from "./components/class/Classdisplay";
 function App() {
   const dispatch = useDispatch();
   var separatedString1;
@@ -19,7 +20,7 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       // console.log(user)
       if (user) {
-        const idTokenResult = await user.getIdTokenResult();
+        // const idTokenResult = await user.getIdTokenResult();
         await db
           .collection("users")
           // .where('uid', '==', user.email)
@@ -57,6 +58,7 @@ function App() {
         <Route exact path="/register/complete" component={CompleteSignup} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/contact" component={Contactus} />
+        <Route exact path="/class" component={Classdata} />
         
         <Route exact path="/signup" component={Signup} />
         <AdminRoute exact path="/contactus-retrive" component={RetriveContact}  />

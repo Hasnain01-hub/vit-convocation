@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import Convocation from "../assets/convocation.mp4";
 import "../components/css/bootstrap.css";
 import '../components/css/footer.css';
+import Images from "./Images";
 const Home = () => {
   return (
     <>
@@ -43,6 +44,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Images/>
     </>
   );
 };
