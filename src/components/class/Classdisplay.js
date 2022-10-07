@@ -1,5 +1,5 @@
 import { DeleteOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, Select } from "antd";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import { db } from "../../Firebase";
 import img1 from "../../assets/computer.jpeg";
 import img2 from "../../assets/electronic.jpg";
 import img3 from "../../assets/Information.jpg";
+const { Option } = Select;
 AOS.init();
 const customStyles = {
   content: {
@@ -29,7 +30,16 @@ const customStyles = {
 
 const Classdata = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-
+  const [dropchange, setdropchange] = useState("");
+  const [set, seteat] = useState([]);
+  const [seat, setseat] = useState("");
+  
+  const onChange = (value) => {
+    setseat(value);
+    var index=set.indexOf(value);
+    set.splice(index, 1);
+    setdropchange(set);
+  };
   function openModal() {
     setIsOpen(true);
   }
@@ -44,8 +54,7 @@ const Classdata = () => {
     setIsOpen(false);
   }
   var id = uuidv4();
-  const [loading, setLoading] = useState(false);
-  const [seat, setseat] = useState("");
+  const [resdata, retdata] = useState(false);
   const [event, setevent] = useState("");
   const [Data, setData] = useState([]);
   useEffect(() => {
@@ -55,58 +64,72 @@ const Classdata = () => {
   const realimage = [
     {
       id: 1,
-      path:"../../assets/computer.jpeg",
+      path: "../../assets/computer.jpeg",
       img: img1,
     },
     {
       id: 2,
-      path:"../../assets/electronic.jpg",
+      path: "../../assets/electronic.jpg",
       img: img2,
     },
     {
       id: 3,
-      path:"../../assets/Information.jpg",
+      path: "../../assets/Information.jpg",
       img: img3,
     },
   ];
   const submit = async (e) => {
     e.preventDefault();
     if (user != null) {
-      if (!Data.seat.includes(seat)) {
+    //   if (!Data.seat.includes(seat)) {
+        
         await db
-          .collection("user-class")
-          .doc(id)
-          .set({
-            id: id,
-            event: event,
-            name: user.name,
-            email: user.email,
-            seat: seat,
-            // venue: values.venue,
+          .collection("class")
+          .doc(resdata.id)
+          .update({
+            id: resdata.id,
+            class: resdata.class,
+            date: resdata.date,
+            image: resdata.image,
+            venue: resdata.venue,
+            seat:dropchange,
           })
-          .then((res) => {
-            console.log(res);
-            alert(`${event} is register`);
-            window.location.reload();
-          })
-          .catch((err) => {
-            console.log(err);
-            // alert("Event added");
-            window.location.reload();
-            // alert(err.response.data.err);
+          .then(async () => {
+            await db
+              .collection("user-class")
+              .doc(id)
+              .set({
+                id: id,
+                email: user.email,
+                name: user.name,
+                event: resdata.class,
+                seat: seat,
+                venue: resdata.venue,
+              })
+              .then((res) => {
+                console.log(res);
+                alert(`${seat} is Booked!`);
+                window.location.reload();
+              })
+              .catch((err) => {
+                console.log(err);
+                // alert("Event added");
+                window.location.reload();
+                // alert(err.response.data.err);
+              });
           });
-      } else {
-        toast.error("Please Enter Valid Phone Number");
-      }
+    //   } else {
+    //     toast.error("Please Enter another seat");
+    //   }
     } else {
-      toast.error("Please Login to register in event");
+      toast.error("Please Login to register for convocation");
       // alert("Please Login to register in event");
     }
     console.log(user);
   };
 
   const loadAllServices = async () => {
-    setLoading(true);
+    
     // getServices("price", "desc", page)
     const items = await db
       .collection("class")
@@ -118,7 +141,7 @@ const Classdata = () => {
           var data = element.data();
           setData((arr) => [...arr, data]);
         });
-        setLoading(false);
+        
       });
   };
   const handleremove = async (id) => {
@@ -142,99 +165,111 @@ const Classdata = () => {
   return (
     <>
       {console.log(Data)}
-      {Data.length == 0 ? <center><h2>No data present</h2></center>:
-      <div className="container box">
-      
-        {Data.map((item) => (
-          <div data-aos="zoom-in" className="product-box">
-            <div className="product">
-              <span className="product__price">{item.seat.length}</span>
-              <img
-                className="product__image"
-                src={realimage[item.image - 1].img}
-                alt="Images"
-              />
-              <h1 className="product__title">Book Seat</h1>
-              <hr />
-              <p>
-                <strong>Department: </strong>
-                {item.class}
-              </p>
-              <p>
-                <strong>venue:</strong> {item.venue}
-              </p>
+      {Data.length == 0 ? (
+        <center>
+          <h2>No data present</h2>
+        </center>
+      ) : (
+        <div className="container box">
+          {Data.map((item) => (
+            <div data-aos="zoom-in" className="product-box">
+              <div className="product">
+                <span className="product__price">{item.seat.length}</span>
+                <img
+                  className="product__image"
+                  src={realimage[item.image - 1].img}
+                  alt="Images"
+                />
+                <h1 className="product__title">Book Seat</h1>
+                <hr />
+                <p>
+                  <strong>Department: </strong>
+                  {item.class}
+                </p>
+                <p>
+                  <strong>venue:</strong> {item.venue}
+                </p>
 
-              <a
-                onClick={() => {
-                  openModal(item.event);
-                  setevent(item.event);
-                }}
-                style={{ cursor: "pointer" }}
-                className="product__bttn btn1"
-              >
-                Register
-              </a>
-              {user && user.role === "admin" && (
-                <Button
+                <a
                   onClick={() => {
-                    handleremove(item.id);
+                    openModal(item.event);
+                    seteat(item.seat)
+                    setevent(item.event);
+                    retdata(item);
                   }}
-                  type="danger"
-                  className="mb-3  custumbt"
-                  block
-                  shape="round"
-                  icon={<DeleteOutlined />}
-                  size="small"
-                ></Button>
-              )}
+                  style={{ cursor: "pointer" }}
+                  className="product__bttn btn1"
+                >
+                  Register
+                </a>
+                {user && user.role === "admin" && (
+                  <Button
+                    onClick={() => {
+                      handleremove(item.id);
+                    }}
+                    type="danger"
+                    className="mb-3  custumbt"
+                    block
+                    shape="round"
+                    icon={<DeleteOutlined />}
+                    size="small"
+                  ></Button>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-        <Modal
-          isOpen={modalIsOpen}
-          // onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Register"
-        >
-          {/* <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2> */}
-          <div className="modalcard">
-            <button
-              className="close"
-              style={{ outline: "none", border: "none", textAlign: "right" }}
-              onClick={closeModal}
-            >
-              X
-            </button>
-            {/* <div>Enter Your</div> */}
-            <br />
-            <form>
-              <input
-                className="mobileinput"
-                type="text"
-                placeholder="Enter Seat No"
-                onChange={(e) => setseat(e.target.value)}
-                // pattern="[6789][0-9]{9}"
-                id="seat"
-                list="seat"
-              />
-              {Data.map((item) => (
-                <datalist id="seat">
-                  <option value={item.seat} />
-                </datalist>
-              ))}
+          ))}
+          <Modal
+            isOpen={modalIsOpen}
+            // onAfterOpen={afterOpenModal}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Register"
+          >
+            {/* <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2> */}
+            <div className="modalcard">
+              <button
+                className="close"
+                style={{ outline: "none", border: "none", textAlign: "right" }}
+                onClick={closeModal}
+              >
+                X
+              </button>
+              {/* <div>Enter Your</div> */}
               <br />
-              <input
-                type="submit"
-                onClick={submit}
-                value="Register"
-                className="sub"
-              />
-            </form>
-          </div>
-        </Modal>
-        <ToastContainer />
-      </div>}
+              <form>
+                {/* <input
+                  className="mobileinput"
+                  type="text"
+                  placeholder="Enter Seat No"
+                  onChange={(e) => setseat(e.target.value)}
+                  // pattern="[6789][0-9]{9}"
+                  id="seat"
+                  list="seat"
+                />
+                 */}
+                 <Select
+                showSearch
+                placeholder="Select a Image"
+                onChange={onChange}
+                // onChange={setdropchange(item.image)}
+              >
+                {set.map((item) => (
+                  <Option value={item}>{item}</Option>
+                ))}
+              </Select>
+                <br />
+                <input
+                  type="submit"
+                  onClick={submit}
+                  value="Register"
+                  className="sub"
+                />
+              </form>
+            </div>
+          </Modal>
+          <ToastContainer />
+        </div>
+      )}
     </>
   );
 };
