@@ -15,6 +15,7 @@ import Contactus from "./components/Contact";
 import Classdata from "./components/class/Classdisplay";
 import Fotter from "./footer/Footer";
 import Classretrive from "./admin/Classretrive";
+import About from "./components/About";
 function App() {
   const dispatch = useDispatch();
   var separatedString1;
@@ -63,6 +64,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/contact" component={Contactus} />
         <Route exact path="/class" component={Classdata} />
+        <Route exact path="/about" component={About} />
         
         <Route exact path="/signup" component={Signup} />
         <AdminRoute exact path="/contactus-retrive" component={RetriveContact}  />
