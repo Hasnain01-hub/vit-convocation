@@ -87,6 +87,16 @@ function Header() {
                     ) : (
                       console.log()
                     )}
+
+                    {user.role == "admin" ? (
+                      <li className="nav-item">
+                        <Link class="nav-link" to="/class-retrive">
+                          Class-Data
+                        </Link>
+                      </li>
+                    ) : (
+                      console.log()
+                    )}
                     {/* {user.role == "admin" ? (
                       <li className="nav-item">
                         <Link class="nav-link" to="/addclass">

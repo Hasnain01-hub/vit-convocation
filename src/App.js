@@ -14,6 +14,7 @@ import AddClass from "./admin/AddClass";
 import Contactus from "./components/Contact";
 import Classdata from "./components/class/Classdisplay";
 import Fotter from "./footer/Footer";
+import Classretrive from "./admin/Classretrive";
 function App() {
   const dispatch = useDispatch();
   var separatedString1;
@@ -38,6 +39,8 @@ function App() {
               payload: {
                 name: separatedString1.name,
                 email: separatedString1.email,
+                roll:separatedString1.roll,
+                department:separatedString1.department,
                 role: separatedString1.role,
               },
             });
@@ -63,6 +66,8 @@ function App() {
         
         <Route exact path="/signup" component={Signup} />
         <AdminRoute exact path="/contactus-retrive" component={RetriveContact}  />
+        <AdminRoute exact path="/class-retrive" component={Classretrive}  />
+        
         <AdminRoute exact path="/addclass" component={AddClass}  />
         
       </Switch>

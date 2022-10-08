@@ -51,9 +51,9 @@ function CompleteSignup() {
       if (auth.isSignInWithEmailLink(window.location.href)) {
         //   const res = await auth.signInWithEmailLink(email, window.location.href);
         let user = auth.currentUser;
-          console.log(user);
-        
-        auth.signInWithEmailLink(email.email, window.location.href)
+        console.log(user);
+
+        auth.signInWithEmailLink(email.email, window.location.href);
         // var separatedString;
         await db
           .collection("users")
@@ -71,6 +71,8 @@ function CompleteSignup() {
               type: "LOGGED_USERS",
               payload: {
                 name: email.email.split("@")[0],
+                roll: email.roll,
+                department: email.department,
                 email: email.email,
                 role: "user",
                 // token: idTokenResult.token,
@@ -84,9 +86,9 @@ function CompleteSignup() {
             history.push("/");
           })
           .catch();
-        // history.push("/");    
-    }
-  } catch (err) {
+        // history.push("/");
+      }
+    } catch (err) {
       console.error(err);
       alert("Register Failed");
     }

@@ -104,6 +104,7 @@ const Classdata = () => {
                 name: user.name,
                 event: resdata.class,
                 seat: seat,
+                roll: user.roll,
                 venue: resdata.venue,
               })
               .then((res) => {

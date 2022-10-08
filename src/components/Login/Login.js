@@ -56,6 +56,8 @@ const Login = () => {
           console.log(error);
         });
       var obj = JSON.stringify(separatedString.role);
+      var roll= JSON.stringify(separatedString.roll);
+      var department = JSON.stringify(separatedString.department);
       console.log("obj us hee", obj);
       const ad = "";
 
@@ -67,6 +69,8 @@ const Login = () => {
           payload: {
             name: email.split("@")[0],
             email: email,
+            roll:roll,
+            department:department,
             // token: idTokenResult.token,
             role: obj,
             id: email,
