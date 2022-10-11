@@ -6,16 +6,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { auth } from "../../Firebase.js";
 import "./login.css";
-import { Button } from "antd";
+import { Button, Select } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+const { Option } = Select;
 const eye = <FontAwesomeIcon icon={faEye} />;
 function Signup() {
   const [email, setEmail] = useState("");
   const [roll, setroll] = useState("");
-  const [department, setdepartment] = useState("");
+  
   const [password, setpassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
@@ -23,6 +23,8 @@ function Signup() {
     setPasswordShown(passwordShown ? false : true);
   };
   let history = useHistory();
+  const [dropchange, setdropchange] = useState("");
+  
   useEffect(() => {
     let intended = history.location.state;
     if (intended) {
@@ -41,7 +43,7 @@ function Signup() {
     const data = {
       email: email,
       roll: roll,
-      department: department,
+      department: dropchange,
     };
     const config = {
       url: "http://localhost:3000/register/complete",
@@ -56,12 +58,33 @@ function Signup() {
     );
     window.localStorage.setItem("emailForRegistration", JSON.stringify(data));
     setEmail("");
-    setdepartment("");
+    setdropchange("");
     setroll("");
+    window.location.reload();
   // }else{
   //   toast.error("Please enter a valid VIT email");
   // }
   };
+  const image = [
+    {
+      id: 1,
+      name: "Computer Engineering",
+      value:"comps",
+      
+    },
+    {
+      id: 2,
+      name: "Electronics and Communication Engineering",
+      value:"ece",
+      
+    },
+    {
+      id: 3,
+      name: "Information Engineering",
+      value:"it",
+      
+    },
+  ];
   return (
     <>
       <motion.div
@@ -100,17 +123,28 @@ function Signup() {
                 onChange={(e) => setroll(e.target.value)}
               />
               <div class="form-border"></div>
-              <label for="user-email" style={{ paddingTop: "13px" }}>
+              {/* <label for="user-email" style={{ paddingTop: "13px" }}>
                 &nbsp;Department
-              </label>
-              <input
+              </label> */}
+              {/* <input
                 id="user-email"
                 class="form-content"
                 type="text"
                 name="department"
                 value={department}
                 onChange={(e) => setdepartment(e.target.value)}
-              />
+              /> */}
+              <br/>
+              <Select
+                showSearch
+                placeholder="Select a Department"
+                onChange={(value)=>setdropchange(value)}
+                // onChange={setdropchange(item.image)}
+              >
+                {image.map((item) => (
+                  <Option value={item.value}>{item.name}</Option>
+                ))}
+              </Select>
               <div class="form-border"></div>
               <div class="form-border"></div>
               <Button

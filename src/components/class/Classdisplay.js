@@ -30,32 +30,29 @@ const customStyles = {
 
 const Classdata = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [dropchange, setdropchange] = useState("");
+  const { user } = useSelector((state) => ({ ...state })); 
+  // const [dropchange, setdropchange] = useState("");
   const [set, seteat] = useState([]);
-  const [seat, setseat] = useState("");
-  
+  const [seat, setseat] = useState(0);
+
   const onChange = (value) => {
     setseat(value);
-    var index=set.indexOf(value);
-    set.splice(index, 1);
-    setdropchange(set);
   };
   function openModal() {
     setIsOpen(true);
   }
-  const { user } = useSelector((state) => ({ ...state }));
 
   // function afterOpenModal() {
   //   // references are now sync'd and can be accessed.
   //   subtitle.style.color = '#f00';
   // }
-  var imageName = require("../../assets/Information.jpg");
+  
   function closeModal() {
     setIsOpen(false);
   }
   var id = uuidv4();
-  const [resdata, retdata] = useState(false);
-  const [event, setevent] = useState("");
+  const [resdata, retdata] = useState([]);
+  const [userdata, setuser] = useState([]);
   const [Data, setData] = useState([]);
   useEffect(() => {
     loadAllServices();
@@ -80,9 +77,32 @@ const Classdata = () => {
   ];
   const submit = async (e) => {
     e.preventDefault();
-    if (user != null) {
-    //   if (!Data.seat.includes(seat)) {
-        
+    var arr = [];
+    await db
+      .collection("user-class")
+      // .where('uid', '==', user.email)
+      // .doc()
+      .get()
+      .then((doc) => {
+        // querySnapshot.forEach((element) => {
+        var data = doc.docs.map((doc) => doc.data());
+        data.map((item) => {
+          if (item.email == user.email && item.event == user.department) {
+            // setuser((arr) => [...arr, item]);
+            arr = item;
+          }
+        });
+        console.log(arr);
+        // });
+      });
+
+    if (user != null && set.length != 0) {
+      if (arr.length == 0) {
+        //   if (!Data.seat.includes(seat)) {
+        var index = set.indexOf(seat);
+        set.splice(index, 1);
+        // setdropchange(set);
+
         await db
           .collection("class")
           .doc(resdata.id)
@@ -92,7 +112,7 @@ const Classdata = () => {
             date: resdata.date,
             image: resdata.image,
             venue: resdata.venue,
-            seat:dropchange,
+            seat: set,
           })
           .then(async () => {
             await db
@@ -108,9 +128,8 @@ const Classdata = () => {
                 venue: resdata.venue,
               })
               .then((res) => {
-                console.log(res);
-                alert(`${seat} seat is Booked!`);
-                window.location.reload();
+                toast.success(`${seat} seat is Booked!`);
+                // window.location.reload();
               })
               .catch((err) => {
                 console.log(err);
@@ -119,18 +138,21 @@ const Classdata = () => {
                 // alert(err.response.data.err);
               });
           });
-    //   } else {
-    //     toast.error("Please Enter another seat");
-    //   }
+        //   } else {
+        //     toast.error("Please Enter another seat");
+        //   }
+      } else {
+        toast.error("You have already booked a seat");
+        // alert("Please Login to register in event");
+      }
     } else {
       toast.error("Please Login to register for convocation");
       // alert("Please Login to register in event");
     }
-    console.log(user);
+    // console.log(user);
   };
 
   const loadAllServices = async () => {
-    
     // getServices("price", "desc", page)
     const items = await db
       .collection("class")
@@ -142,7 +164,6 @@ const Classdata = () => {
           var data = element.data();
           setData((arr) => [...arr, data]);
         });
-        
       });
   };
   const handleremove = async (id) => {
@@ -165,7 +186,7 @@ const Classdata = () => {
   };
   return (
     <>
-      {console.log(Data)}
+      {console.log(user)}
       {Data.length == 0 ? (
         <center>
           <h2>No data present</h2>
@@ -173,7 +194,7 @@ const Classdata = () => {
       ) : (
         <div className="container box">
           {Data.map((item) => (
-            <div data-aos="zoom-in" className="product-box">
+            <div data-aos="zoom-in" key={item.id} className="product-box">
               <div className="product">
                 <span className="product__price">{item.seat.length}</span>
                 <img
@@ -191,18 +212,21 @@ const Classdata = () => {
                   <strong>venue:</strong> {item.venue}
                 </p>
 
-                <a
-                  onClick={() => {
-                    openModal(item.event);
-                    seteat(item.seat)
-                    setevent(item.event);
-                    retdata(item);
-                  }}
-                  style={{ cursor: "pointer" }}
-                  className="product__bttn btn1"
-                >
-                  Register
-                </a>
+                {user && user.department == item.class ? (
+                  <a
+                    onClick={() => {
+                      openModal(item.event);
+                      seteat(item.seat);
+                      retdata(item);
+                    }}
+                    style={{ cursor: "pointer" }}
+                    className="product__bttn btn1"
+                  >
+                    Register
+                  </a>
+                ) : (
+                  <></>
+                )}
                 {user && user.role === "admin" && (
                   <Button
                     onClick={() => {
@@ -219,10 +243,12 @@ const Classdata = () => {
               </div>
             </div>
           ))}
+
           <Modal
             isOpen={modalIsOpen}
             // onAfterOpen={afterOpenModal}
             onRequestClose={closeModal}
+            ariaHideApp={false}
             style={customStyles}
             contentLabel="Register"
           >
@@ -248,16 +274,16 @@ const Classdata = () => {
                   list="seat"
                 />
                  */}
-                 <Select
-                showSearch
-                placeholder="Select a Image"
-                onChange={onChange}
-                // onChange={setdropchange(item.image)}
-              >
-                {set.map((item) => (
-                  <Option value={item}>{item}</Option>
-                ))}
-              </Select>
+                <Select
+                  showSearch
+                  placeholder="Select a Image"
+                  onChange={onChange}
+                  // onChange={setdropchange(item.image)}
+                >
+                  {set.map((item) => (
+                    <Option value={item}>{item}</Option>
+                  ))}
+                </Select>
                 <br />
                 <input
                   type="submit"

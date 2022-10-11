@@ -36,7 +36,7 @@ const Login = () => {
   }, [user, history]);
   let dispatch = useDispatch();
   
-  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  
 
   
   const signInWithEmailAndPassword = async () => {
@@ -46,9 +46,9 @@ const Login = () => {
         // .where('uid', '==', user.email)
         .doc(email)
         .get()
-        .then((doc) => {
-          if (doc && doc.exists) {
-            separatedString = doc.data();
+        .then((snapshot) => {
+          if (snapshot && snapshot.exists) {
+            separatedString = snapshot.data();
             //use separatedString
           }
         })
@@ -58,11 +58,8 @@ const Login = () => {
       var obj = JSON.stringify(separatedString.role);
       var roll= JSON.stringify(separatedString.roll);
       var department = JSON.stringify(separatedString.department);
-      console.log("obj us hee", obj);
-      const ad = "";
-
-      console.log("ad is here", ad);
-
+      
+      
       await auth.signInWithEmailAndPassword(email, password).then((res) => {
         dispatch({
           type: "LOGGED_IN_USERS",
@@ -79,9 +76,9 @@ const Login = () => {
       });
       alert("successfully login");
       history.push("/");
-    } catch (err) {
-      console.error(err);
-      alert("could'nt login");
+    } catch (error) {
+      console.log(error);
+      console.log("obj us hee", separatedString);
     }
   };
 

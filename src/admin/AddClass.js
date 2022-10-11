@@ -10,13 +10,14 @@ import { Select } from "antd";
 const { Option } = Select;
 
 const initialState = {
-  class: "",
   date: "",
   seat: "",
   venue: "",
 };
 const AddClass = () => {
   const [dropchange, setdropchange] = useState("");
+  const [calsses, setcalsses] = useState({});
+
   const onChange = (value) => {
     setdropchange(value);
   };
@@ -37,7 +38,7 @@ const AddClass = () => {
       image: "../../assets/Information.jpg",
     },
   ];
-  const [loading, setLoading] = useState(false);
+
   var id = uuidv4();
   const [values, setValues] = useState(initialState);
   const handleChange = (e) => {
@@ -47,13 +48,14 @@ const AddClass = () => {
     e.preventDefault();
     var arr = [];
 
-    if (values.class !== "" && values.date !== "" && values.desc !== "") {
+    if (calsses !== "" && values.date !== "" && values.desc !== "") {
       await db
         .collection("class")
         .doc(id)
         .set({
           id: id,
-          class: values.class,
+          class: calsses.value,
+          dept: calsses.name,
           date: values.date,
           image: dropchange,
           seat: Array.from({ length: values.seat }, (_, i) => i + 1),
@@ -61,11 +63,11 @@ const AddClass = () => {
         })
         .then((res) => {
           console.log(res);
-          alert(`"${values.class}" is added`);
+          alert(`"${calsses.name}" is added`);
           window.location.reload();
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           // alert("Event added");
           window.location.reload();
           // alert(err.response.data.err);
@@ -74,25 +76,60 @@ const AddClass = () => {
       toast.error("Please fill all the fields");
     }
   };
-
+  const classs = [
+    {
+      id: 1,
+      name: "Computer Engineering",
+      value: "comps",
+    },
+    {
+      id: 2,
+      name: "Electronics and Communication Engineering",
+      value: "ece",
+    },
+    {
+      id: 3,
+      name: "Information Engineering",
+      value: "it",
+    },
+  ];
+  const onChanges = (values) => {
+    classs.map((value) => {
+      if (value.id == values) {
+        setcalsses(value);
+      }
+    });
+  };
   return (
     <>
+      {console.log(calsses)}
       {/* {loading ? (<LoadingOutlined className="text-danger h1" />) : (<h4 className="heading">Events</h4>)} */}
       <div class="containerevent">
         <div class="cardevent">
           <div class="card-image">
             {/* <Lottie className="eventgif" animationData={backg}  loop={true} /> */}
           </div>
-          <form class="card-form" onSubmit={handleSubmit}>
+          <form class="card-form">
             <div class="input">
-              <input
+              {/* <input
                 type="text"
                 name="class"
                 onChange={handleChange}
                 class="input-field"
                 required
-              />
-              <label class="input-label">Department</label>
+              /> */}
+              <br />
+              <Select
+                showSearch
+                placeholder="Select a Department"
+                onChange={onChanges}
+                // onChange={setdropchange(item.image)}
+              >
+                {classs.map((item) => (
+                  <Option value={item.id}>{item.name}</Option>
+                ))}
+              </Select>
+              {/* <label class="input-label">Department</label> */}
             </div>
             <div class="input">
               <input
@@ -149,7 +186,9 @@ const AddClass = () => {
             {/* <label class="input-label">Image</label> */}
             {/* </div> */}
             <div class="action">
-              <button class="action-button">Submit</button>
+              <button onClick={handleSubmit} class="action-button">
+                Submit
+              </button>
             </div>
           </form>
           {/* <div class="card-info">
