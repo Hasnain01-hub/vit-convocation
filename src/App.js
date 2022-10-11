@@ -16,6 +16,7 @@ import Classdata from "./components/class/Classdisplay";
 import Fotter from "./footer/Footer";
 import Classretrive from "./admin/Classretrive";
 import About from "./components/About";
+import UserSeats from "./components/UserSeats";
 function App() {
   const dispatch = useDispatch();
   var separatedString1;
@@ -65,11 +66,11 @@ function App() {
         <Route exact path="/contact" component={Contactus} />
         <Route exact path="/class" component={Classdata} />
         <Route exact path="/about" component={About} />
-        
         <Route exact path="/signup" component={Signup} />
+        <Route exact path="/booked-data" component={UserSeats} />
+        
         <AdminRoute exact path="/contactus-retrive" component={RetriveContact}  />
         <AdminRoute exact path="/class-retrive" component={Classretrive}  />
-        
         <AdminRoute exact path="/addclass" component={AddClass}  />
         
       </Switch>

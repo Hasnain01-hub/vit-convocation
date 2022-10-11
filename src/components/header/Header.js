@@ -68,6 +68,15 @@ function Header() {
                   </Link>
                 </li>
                 {user && user.email ? (
+                  <li className="nav-item">
+                    <Link class="nav-link" to="/booked-data">
+                      Booked Data
+                    </Link>
+                  </li>
+                ) : (
+                  <></>
+                )}
+                {user && user.email ? (
                   <>
                     {user.role == "admin" ? (
                       <li className="nav-item">
