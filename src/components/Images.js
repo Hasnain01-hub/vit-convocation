@@ -8,22 +8,22 @@ const Images = () => {
     {
       id: 1,
       images:
-        "https://images.unsplash.com/photo-1664716476660-123691a56190?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDV8QkpKTXR0ZURKQTR8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=60",
+        "https://images.indianexpress.com/2019/07/college1200.jpg",
     },
     {
       id: 2,
       images:
-        "https://images.unsplash.com/photo-1664715934138-5b7621936796?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDl8QkpKTXR0ZURKQTR8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=60",
+        "https://vit.edu.in/images/inspiring_minds6.png",
     },
     {
       id: 3,
       images:
-        "https://images.unsplash.com/photo-1665049626324-791d0a86e8cd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=1200&q=60",
+        "https://i.ytimg.com/vi/zLW54GnJEeg/sddefault.jpg",
     },
     {
       id: 4,
       images:
-        "https://images.unsplash.com/photo-1664993981705-cba438d3039f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=1200&q=60",
+        "https://kjsac.somaiya.edu.in/assets/kjsac/images/about/convocation-banners.jpg",
     },
   ];
   const responsive = {

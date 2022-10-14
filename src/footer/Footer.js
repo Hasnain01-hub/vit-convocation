@@ -12,7 +12,7 @@ return(
   	 			<h4>company</h4>
   	 			<ul>
   	 				{/* <li>About us</li> */}
-            <li><p>Abouts us<br/> Dolor laboris esse deserunt anim duis fugiat mollit duis enim sunt. Sint non occaecat reprehenderit culpa nostrud ad nulla sit tempor </p></li>
+            <li><p> Vidyalankar Institute of Technology was started in the year 1999 after having secured permission from the AICTE and University of Mumbai. It secured an A grade rating from the Mumbai University in 2005</p></li>
   	 				
   	 			</ul>
   	 		</div>

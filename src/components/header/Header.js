@@ -33,7 +33,7 @@ function Header() {
               ITSA<span className="text-primary"> VIT</span>
             </a> */}
             <Link class="navbar-brand" to="/">
-              Convocation<span className="text-primary"> VIT</span>
+              V<span className="text-primary">I</span>T
             </Link>
             <button
               className="navbar-toggler"

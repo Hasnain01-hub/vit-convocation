@@ -12,11 +12,11 @@ const Home = () => {
           <div className="row align-items-center flex-wrap-reverse h-100">
             <div className="col-md-6 py-5 wow fadeInLeft">
               <h1 className="mb-4">
-                Vit Convocation
+              Vidyalankar Institute of Technology
               </h1>
               <p className="text-lg text-grey mb-5">
-                Hygiene is our theme, feel exquisite daily. <br />
-                Made by us, made for you..!!
+              Approved by AICTE, New Delhi and Government of Maharashtra. <br />
+              Affiliated to University of Mumbai.
               </p>
               <a href="/products" className="btn btn-primary btn-split">
                 Watch Videos{" "}
