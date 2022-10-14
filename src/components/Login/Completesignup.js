@@ -38,7 +38,9 @@ function CompleteSignup() {
   }, []);
 
   let dispatch = useDispatch();
-  const registerWithEmailAndPassword = async () => {
+  const registerWithEmailAndPassword = async (e) => {
+    e.preventDefault();
+    
     if (!email.email || !password) {
       toast.error("Password is required");
       return;
@@ -48,12 +50,15 @@ function CompleteSignup() {
       //   email.email,
       //   window.location.href
       // );
-      if (auth.isSignInWithEmailLink(window.location.href)) {
+      const result = await auth.signInWithEmailLink(email.email, window.location.href);
+      if (result.user.emailVerified) {
         //   const res = await auth.signInWithEmailLink(email, window.location.href);
         let user = auth.currentUser;
         console.log(user);
 
-        auth.signInWithEmailLink(email.email, window.location.href);
+        await user.updatePassword(password);
+        const idTokenResult = await user.getIdTokenResult();
+        // auth.signInWithEmailLink(email.email, window.location.href);
         // var separatedString;
         await db
           .collection("users")
@@ -61,6 +66,7 @@ function CompleteSignup() {
           .set({
             name: email.email.split("@")[0],
             role: "user",
+            id:idTokenResult.token,
             department: email.department,
             roll: email.roll,
             // token: idTokenResult.token,

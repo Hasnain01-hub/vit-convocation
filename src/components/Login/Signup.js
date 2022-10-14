@@ -137,7 +137,8 @@ function Signup() {
               <br/>
               <Select
                 showSearch
-                placeholder="Select a Department"
+                
+                placeholder="Saelect a Department"
                 onChange={(value)=>setdropchange(value)}
                 // onChange={setdropchange(item.image)}
               >
